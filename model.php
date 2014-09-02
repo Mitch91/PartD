@@ -3,9 +3,11 @@
     require_once('config.php');
     require_once ("MiniTemplator.class.php"); 
     
-    if(!$dbconn = mysqli_connect(DB_HOST, DB_USER, DB_PW, DB_NAME)){
+    try{
+        $dbconn = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8',
+                    DB_USER, DB_PW);
+    } catch(PDOException $e) {
         echo 'Could not connect to mysql database ' . DB_NAME . ' on ' . DB_HOST . '\n';
-        exit;
     }
     
     function get_values_of_field($field){
@@ -23,10 +25,9 @@
         $i = 0;
         $values = array();
         
-        $result = mysqli_query($dbconn, $query);
-        while($row = mysqli_fetch_array($result))
+        foreach($dbconn->query($query) as $row)
                 $values[$i++] = $row[0];
-                
+        
         return $values;
     }
     
@@ -93,10 +94,10 @@
                  $where_clause .
                  $group_by_clause .
                  $order_by_clause;
-                 
-        $result = mysqli_query($dbconn, $query);
-        while($row = mysqli_fetch_array($result))
-            $query_result[$i++] = $row;
+        
+        foreach($dbconn->query($query) as $row){
+                $query_result[$i++] = $row;
+        }
             
         return $query_result;
     }

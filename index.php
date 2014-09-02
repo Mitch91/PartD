@@ -5,8 +5,8 @@
         global $query_templator;
         
         $values = get_values_of_field($field);
-        for($i = 0; $i < count($values); $i++){
-            $query_templator->setVariable($field, $values[$i]);
+        foreach($values as $value){
+            $query_templator->setVariable($field, $value);
             $query_templator->addBlock($field);
         }
     }
