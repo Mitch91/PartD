@@ -3,6 +3,7 @@
 
     $error_msg = "";
 
+    // Validates that the query
     function validate_query($query_array){
         global $error_msg;
         
@@ -26,6 +27,9 @@
         return $error_msg == "";
     }
     
+    /* Displays the array $results as a table or displays 
+     * a message that there are no results for the criteria
+     */
     function display_results($results){
         $results_templator = new MiniTemplator;
         $results_templator->readTemplateFromFile("output_template.html");
@@ -45,6 +49,9 @@
         }
     }
 
+    /* If it validates, run the query then display the results.
+     * If not, send the user back to the search page with the error message 
+     */
     if(validate_query($_GET)){
         $results = get_results($_GET);
         display_results($results);

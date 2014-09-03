@@ -3,6 +3,12 @@
     require_once('config.php');
     require_once ("MiniTemplator.class.php"); 
     
+    /* Since part D was all about using PDO, this is the only file that
+     * has any DB interaction so I'm pretty sure no other file is different.
+     * from part C.
+     */
+    
+    // connect to the DB
     try{
         $dbconn = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8',
                     DB_USER, DB_PW);
@@ -10,6 +16,9 @@
         echo 'Could not connect to mysql database ' . DB_NAME . ' on ' . DB_HOST . '\n';
     }
     
+    /* Gets the possible values for the respective 
+     * field and returns it as an array.
+     */
     function get_values_of_field($field){
         $query = "";
         if($field == 'grape'){
@@ -31,6 +40,10 @@
         return $values;
     }
     
+    /* Given $query_array is just $_GET, so the function just
+     * builds the query given the user's search parameters and
+     * returns the results as an array.
+     */
     function get_results($query_array){
         global $dbconn;
         $query_result = array();
